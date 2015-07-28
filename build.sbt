@@ -50,6 +50,5 @@ lazy val server = project.in(file("server"))
         dst
       }
     }
-
   ).enablePlugins(PlayScala)
    .disablePlugins(PlayLayoutPlugin)

@@ -6,7 +6,9 @@ import java.awt.{Desktop, Image, MenuItem, PopupMenu, SystemTray, Toolkit, TrayI
 import java.awt.event.{ActionEvent, ActionListener}
 import java.net.URI
 import javax.inject._
+import org.labrad.util.Logging
 import org.slf4j.{Logger, LoggerFactory}
+import play.api.Application
 import play.api.inject.ApplicationLifecycle
 import scala.concurrent.Future
 
@@ -19,9 +21,7 @@ class TrayModule extends AbstractModule {
   }
 }
 
-class TrayController @Inject() (lifecycle: ApplicationLifecycle) {
-
-  private val log = LoggerFactory.getLogger(getClass)
+class TrayController @Inject() (app: Application, lifecycle: ApplicationLifecycle) extends Logging {
 
   // create popup menu
   private val browseItem = new MenuItem("Manage")
@@ -34,6 +34,8 @@ class TrayController @Inject() (lifecycle: ApplicationLifecycle) {
   private val exitItem = new MenuItem("Exit")
   exitItem.addActionListener(new ActionListener {
     def actionPerformed(e: ActionEvent): Unit = {
+      SystemTray.getSystemTray.remove(trayIcon)
+      app.stop()
       sys.exit(0)
     }
   })
@@ -59,10 +61,11 @@ class TrayController @Inject() (lifecycle: ApplicationLifecycle) {
   } catch {
     case e: Throwable =>
       log.error("TrayIcon could not be added", e)
-      sys.exit(1)
+      app.stop()
+      sys.exit(-1)
   }
 
-  lifecycle.addStopHook{ () =>
+  lifecycle.addStopHook { () =>
     SystemTray.getSystemTray.remove(trayIcon)
     Future.successful(())
   }
@@ -81,7 +84,7 @@ class TrayController @Inject() (lifecycle: ApplicationLifecycle) {
   protected def createImage(path: String, description: String): Image = {
     val imageURL = getClass.getResource(path)
     if (imageURL == null) {
-      log.error("Resource not found: {}", path)
+      log.error(s"Resource not found: $path")
       null
     } else {
       Toolkit.getDefaultToolkit.getImage(imageURL)
