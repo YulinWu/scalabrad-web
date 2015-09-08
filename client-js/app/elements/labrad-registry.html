@@ -85,9 +85,10 @@
       </section>
     </div>
     <div id="reg-area">
+    <paper-input value="{{filterText::input}}" label="search registry"></paper-input>
       <table>
-        <tbody is="selectable-table"  id="dirList" attr-for-selected="name" selected="{{selDir}}" on-tap="selectDir">
-          <template is="dom-repeat" items="{{dirs}}">
+        <tbody is="selectable-table" attr-for-selected="name" selected="{{selDir}}" on-tap="selectDir">
+          <template id="dirList" is="dom-repeat" items="{{dirs}}" filter="filterFunc">
             <tr name="{{item.name}}">
               <td>
                 <a is="app-link" path="{{item.url}}" href="{{item.url}}">
@@ -99,7 +100,7 @@
           </template>
         </tbody>
         <tbody is="selectable-table" is="keyList" attr-for-selected="name"  selected="{{selKey}}" on-tap="selectKey">
-          <template is="dom-repeat" items="{{keys}}">
+          <template id="keyList" is="dom-repeat" items="{{keys}}" filter="filterFunc">
             <tr name="{{item.name}}">
               <td>
                 <dir-item kind="key">{{item.name}}</dir-item>
