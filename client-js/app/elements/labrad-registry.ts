@@ -93,6 +93,14 @@ export class LabradRegistry extends polymer.Base {
 
 
   /**
+   * Initiate a drag-and-drop interaction
+   */
+  @listen('dragstart')
+  startDragging(event) {
+    console.log('dragstart', event);
+  }
+
+  /**
    * Update a key in response to change in the inline form submission.
    */
   @listen('iron-form-submit')
