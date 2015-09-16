@@ -29,6 +29,8 @@ export class LabradRegistry extends polymer.Base {
     
   @property({type: String, notify: true, value: ''})
   filterText: string;
+  
+  regex: any; //regular expression for string comparison
 
   //Helper Functions
   @observe('path')
@@ -43,14 +45,17 @@ export class LabradRegistry extends polymer.Base {
   @observe('filterText')
   reloadMenu() {
     //triggers re-render of dir, key lists when filterText is changed
+    this.regex = new RegExp(this.filterText, 'i');
     this.$.dirList.render();
     this.$.keyList.render();
+
+
   }
 
   filterFunc(item) {
     // called when dir, key lists are populated. Returns entries that contain
     // substring in filterText
-    return item.name.match(new RegExp(this.filterText, 'i'));
+    return item.name.match(this.regex);
   }
 
   selectKey() {

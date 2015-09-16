@@ -99,7 +99,7 @@
             </tr>
           </template>
         </tbody>
-        <tbody is="selectable-table"s attr-for-selected="name"  selected="{{selKey}}" on-tap="selectKey">
+        <tbody is="selectable-table" attr-for-selected="name"  selected="{{selKey}}" on-tap="selectKey">
           <template id="keyList" is="dom-repeat" items="{{keys}}" filter="filterFunc">
             <tr name="{{item.name}}">
               <td>
