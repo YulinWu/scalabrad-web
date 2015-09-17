@@ -30,7 +30,7 @@ export class LabradRegistry extends polymer.Base {
   @property({type: String, notify: true, value: ''})
   filterText: string;
   
-  regex: any; //regular expression for string comparison
+  regex: RegExp; //regular expression for string comparison
 
   //Helper Functions
   @observe('path')
