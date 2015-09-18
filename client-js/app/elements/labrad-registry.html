@@ -73,6 +73,18 @@
     iron-autogrow-textarea {
       max-width: 400px;
     }
+    #search-bar {
+      padding: 0px 10px;
+    }
+    #search-bar input {
+      font-family: var(--primary-font-family);
+      font-size: 15px;
+      width: 50%;
+      padding: 10px;
+      border: 0;
+      border-radius: 2px;
+      -webkit-appearance: none;
+    }
   </style>
   <template>
     <div id="reg-menu">
@@ -85,7 +97,10 @@
       </section>
     </div>
     <div id="reg-area">
-    <paper-input value="{{filterText::input}}" label="search registry"></paper-input>
+      <div id="search-bar">
+        <iron-icon icon="search"></iron-icon>
+        <input type="search" id="search" value="{{filterText::input}}" placeholder="search registry">
+      </div>
       <table>
         <tbody is="selectable-table" attr-for-selected="name" selected="{{selDir}}" on-tap="selectDir">
           <template id="dirList" is="dom-repeat" items="{{dirs}}" filter="filterFunc">
