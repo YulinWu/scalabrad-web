@@ -10,16 +10,22 @@ event.detail
 
 <dom-module id="expandable-input">
   <style>
-  #long {
-    width: 80%;
-  }
+    #long {
+      width: 80%;
+    }
+    paper-item {
+      padding: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   </style>
   <template >
     <div>
       <iron-a11y-keys keys="shift+enter" on-keys-pressed="submitForm">
       <!-- TODO remap newline from enter to "ctrl enter" -->
         <paper-textarea id="long" value="{{value::input}}" no-label-float hidden></paper-textarea>
-        <paper-item id="short" on-click="selectField" label="{{valueShort}}">{{valueShort}}</paper-item>
+        <paper-item id="short" on-click="selectField" label="{{value}}">{{value}}</paper-item>
         <paper-tooltip for="long">shift+enter to submit</paper-tooltip>
       </iron-a11y-keys>
     </div>
