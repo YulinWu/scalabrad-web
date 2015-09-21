@@ -18,6 +18,13 @@ event.detail
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 100px;
+    }
+    #short {
+        text-overflow : ellipsis;
+        white-space   : nowrap;
+        width         : 95%;
+        overflow      : hidden;
     }
   </style>
   <template >
@@ -25,7 +32,8 @@ event.detail
       <iron-a11y-keys keys="shift+enter" on-keys-pressed="submitForm">
       <!-- TODO remap newline from enter to "ctrl enter" -->
         <paper-textarea id="long" value="{{value::input}}" no-label-float hidden></paper-textarea>
-        <paper-item id="short" on-click="selectField" label="{{value}}">{{value}}</paper-item>
+        <!--  paper-item id="short" on-click="selectField" label="{{value}}">{{value}}</paper-item>-->
+        <div on-click="selectField" id="short">{{value}}</div>
         <paper-tooltip for="long">shift+enter to submit</paper-tooltip>
       </iron-a11y-keys>
     </div>
@@ -36,7 +44,7 @@ event.detail
     properties: {
       name: {type: String},
       value: {type: String},
-      cols: {
+/*       cols: {
         type: Number,
         value: 80
       },
@@ -44,7 +52,7 @@ event.detail
         //holds the shortened value which renders as 'value...' if longer than cols
         type: String,
         computed: 'shortenValue(value)'
-      }
+      } */
     },
     behaviors: [
       Polymer.IronControlState
@@ -54,7 +62,7 @@ event.detail
       this.addEventListener('focused-changed', this.fieldFocus);
       this.$.long.$.input.$.textarea.addEventListener('keypress', this.keyPressed);
     },
-    shortenValue: function(value) {
+/*     shortenValue: function(value) {
       //returned shortened string if longer than this.cols
       if (value.length > this.cols) {
         return value.substr(0, this.cols) + '...';
@@ -62,7 +70,7 @@ event.detail
       else {
         return value;
       }
-    },
+    }, */
     fieldFocus: function() {
       /* When input field brought into focus this enlarges the input field.
       When focus is passed on, this shrinks the field and hides it behind the
