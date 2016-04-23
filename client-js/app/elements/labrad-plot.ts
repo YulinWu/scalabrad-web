@@ -440,13 +440,25 @@ export class Plot extends polymer.Base {
       }
 
       // add this trace to the plot
+      let color = COLOR_LIST[i % COLOR_LIST.length];
       if (traceData.length > 1) {
         this.chartBody.append('svg:path')
                 .datum(traceData)
-                .attr('stroke', COLOR_LIST[i % COLOR_LIST.length])
+                .attr('stroke', color)
                 .attr('fill', 'none')
                 .attr('class', `line${i}`)
                 .attr('d', this.line);
+      }
+      for (let row of traceData) {
+        this.chartBody
+              .append('circle')
+              .datum(row)
+              .classed('data', true)
+              .attr('cx', (d) => this.xScale(d[0]))
+              .attr('cy', (d) => this.yScale(d[1]))
+              .attr('r', 4)
+              .style('fill', (d) => color)
+              .style('stroke', (d) => color);
       }
     }
   }
@@ -597,6 +609,9 @@ export class Plot extends polymer.Base {
           .attr('class', `line${k}`)
           .attr('d', this.line);
     }
+    this.svg.selectAll('circle.data')
+        .attr('cx', (d) => this.xScale(d[0]))
+        .attr('cy', (d) => this.yScale(d[1]));
   }
 
   private zoomData2D() {
